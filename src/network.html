@@ -96,8 +96,10 @@
                 console.log(aScenarios);
                 sQuery = document.getElementById("query").value;
                 if(!sQuery.match(/^.+:.+/)){
+                    console.log("Change sQuery from " + sQuery + " to minecraft:" + sQuery)
                     sQuery = "minecraft:" + sQuery;
                 }
+                console.log(sQuery)
                 drawNet(aScenarios, sQuery,{hierarchical:true});
             }
 
