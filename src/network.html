@@ -85,12 +85,62 @@
                 }
 
                 //Draw graph
-                var network = new vis.Network(container,data,options)
+                var network = new vis.Network(container,data,options);
 
-                window.Net = {}
-                window.Net.edges = edges
-                window.Net.nodes = nodes
-                window.Net.network = network
+                console.log("Network",network)
+
+                window.graph = {};
+                window.graph.edges = edges;
+                window.graph.nodes = nodes;
+                window.graph.network = network;
+
+
+                /**
+                 * Reorder network nodes:
+                 *
+                 */
+                var avg = (arr => arr.reduce( ( p, c ) => p + c, 0 ) / arr.length);
+                var levels = Array.from(new Set(Object.values(window.graph.nodes._data).map(function(node){return node.level})))
+
+                levels.forEach(function(levelID){
+                    var levelNodes = getNodesFromLevel(levelID)
+                    levelNodes.forEach(function(node){
+                        var graphNode = getGraph(node.id,edges);
+                        var xs = graphNode.parents.map(function(parent){
+                            return parent.graphNode.x;
+                        });
+
+                        node.graphNode.x = (avg(xs) || -300)
+                        while(!isPosUnique(node.graphNode,Object.values(window.graph.network.body.nodes))){
+                            node.graphNode.x = node.graphNode.x + 100/node.graphNode.edges.length;
+                        }
+                    });
+                    window.graph.network.startSimulation()
+                    window.graph.network.stabilize(1000);
+                });
+
+            }
+
+            function isPosUnique(node,nodes){
+                for(var i=0;i<nodes.length;i++){
+                    var iNode = nodes[i]
+                    if((iNode.x == node.x) && (iNode.y == node.y) && (iNode.id!=node.id)){
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+            /**
+             * [node1,node2,node3,...] = getNodesFromLevel(levelID)
+             *
+             */
+            function getNodesFromLevel(levelID){
+                var arr = Object.values(window.graph.nodes._data).map(function(node){
+                    return node.level == levelID ? node : null
+                })
+                arr = arr.filter(function(e){ return e === 0 || e });
+                return arr
             }
 
             /**
@@ -124,6 +174,9 @@
                             }
                         });
                         return _children;
+                    },
+                    get graphNode(){
+                        return window.graph.network.body.nodes[this.id]
                     }
                 }
             }
