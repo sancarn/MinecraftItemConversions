@@ -35,21 +35,29 @@
                 return {id:name, label:name.replace("minecraft:",""), image:"../img/" + name.replace("minecraft:","") + ".png", shape:"image"}
             }
             var drawNet = function(scenarios, query, argOptions){
-                var nodes={};
+                var checkNodes = {};
+                var nodes=[];
                 var edges=[];
+
 
                 //Use joined conversions to make graphs
                 var conversions = joinConversions(ItemConversions,scenarios);
                 conversions = filter(conversions, query);
+                console.log(conversions)
                 conversions.forEach(function(conv){   //,["Crafting"]
                     edges.push({from: conv.source, to: conv.result, label: conv.type, arrows:"to"})
-                    if(conv.source!= conv.result){
-                        nodes[conv.source] = makeNode(conv.source);
-                        nodes[conv.result] = makeNode(conv.result);
+                    if(!checkNodes[conv.source]){
+                        checkNodes[conv.source] = true;
+                        nodes.push(makeNode(conv.source))
+                    }
+                    if(!checkNodes[conv.result]){
+                        checkNodes[conv.result] = true;
+                        nodes.push(makeNode(conv.result))
                     }
                 })
-                nodes = Object.values(nodes)
 
+                nodes = fixIconDepth(query,nodes,edges)
+                console.log(nodes)
 
                 //Make graph
                 nodes = new vis.DataSet(nodes)
@@ -74,7 +82,6 @@
 
                 if(argOptions){
                     if(argOptions.hierarchical) options.layout.hierarchical.enabled = true
-
                 }
 
                 //Draw graph
@@ -86,6 +93,96 @@
                 window.Net.network = network
             }
 
+            /**
+             * myGraph = getGraph(query,edges)
+             * Returns a object which allows you to get parents and children freely from the edges registry.
+             * This gives the false feeling that this is a graph, and is less efficient than a graph,
+             * but it works.
+             */
+            function getGraph(query,edges){
+                return {
+                    id:query,
+                    edges:edges,
+                    get parents(){
+                        var _parents = [];
+                        var this_id = this.id;
+                        var this_edges = this.edges;
+                        this.edges.forEach(function(edge){
+                            if(edge.to==this_id && edge.to!=edge.from){
+                                _parents.push(getGraph(edge.from,this_edges));
+                            }
+                        });
+                        return _parents;
+                    },
+                    get children(){
+                        var _children = [];
+                        var this_id = this.id;
+                        var this_edges = this.edges;
+                        this.edges.forEach(function(edge){
+                            if(edge.from==this_id && edge.to!=edge.from){
+                                _children.push(getGraph(edge.to,this_edges));
+                            }
+                        });
+                        return _children;
+                    }
+                }
+            }
+
+            /**
+             * fixIconDepth
+             * Usage: `nodes = fixIconDepth(nodes,edges)`
+             * Returns: nodes = [{...,"level":0},{...,"level":1},...]
+             */
+            function fixIconDepth(query,nodes,edges){
+                return nodes.map(function(node){
+                    graphNode = getGraph(node.id,edges);
+                    paths = getParentPaths(query,graphNode,edges);
+                    level = Math.max.apply(null, paths.map(function(el){return el.length}));
+                    level = level - 1;
+                    if(level < 0) level = 0;
+                    node["level"] = level;
+                    return node
+                })
+            }
+
+            function getParentPaths(query,node,edges,_path){
+                //If path is undefined set it to empty array
+                if(_path==undefined) _path = [];
+
+                //Find paths for item
+                _paths = [];
+                _path.push(node);
+                node.parents.forEach(function(parent){
+                    if(_path.filter(function(pNode){return pNode.id==parent.id||pNode.id==query}).length==0){
+                        getParentPaths(query,parent,edges,_path);
+                    }
+                    _paths.push(_path);
+                })
+                return _paths;
+            }
+
+            /**
+             * getAncestors
+             * Usage: `ancestors = getAncestors(node,edges)`
+             * Returns: nodes_ids = ["minecraft:iron_ingot",...]
+            */
+            function getAncestors(node,edges){
+                aAncestors = [];
+                oAncestors = {};
+                aAncestors.push(node.id)
+                oAncestors[node.id]=true
+                while(id=aAncestors.shift()){
+                    edges.forEach(function(edge){
+                        if(edge.to==id){
+                            if(!oAncestors[edge.from]){
+                                aAncestors.push(edge.from)
+                                oAncestors[edge.from]=true
+                            }
+                        }
+                    });
+                }
+                return Object.keys(oAncestors);
+            }
 
             function applySelection(){
                 aScenarios = [];
