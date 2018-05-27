@@ -104,21 +104,19 @@
 
                 levels.forEach(function(levelID){
                     var levelNodes = getNodesFromLevel(levelID)
+                    levelNodes = levelNodes.sort(function(nodeA,nodeB){return sInverse(nodeA.id)<sInverse(nodeB.id) ? -1:1})
+                    currentX = -300;
                     levelNodes.forEach(function(node){
-                        var graphNode = getGraph(node.id,edges);
-                        var xs = graphNode.parents.map(function(parent){
-                            return parent.graphNode.x;
-                        });
-
-                        node.graphNode.x = (avg(xs) || -300)
-                        while(!isPosUnique(node.graphNode,Object.values(window.graph.network.body.nodes))){
-                            node.graphNode.x = node.graphNode.x + 100/node.graphNode.edges.length;
-                        }
-                    });
-                    window.graph.network.startSimulation()
-                    window.graph.network.stabilize(1000);
+                        node.graphNode.x = currentX;
+                        currentX = currentX + 100;
+                    })
                 });
+                window.graph.network.startSimulation()
+                window.graph.network.stabilize(1000);
+            }
 
+            function sInverse(str){
+                return Array.from(str).reverse().join('');
             }
 
             function isPosUnique(node,nodes){
@@ -137,7 +135,7 @@
              */
             function getNodesFromLevel(levelID){
                 var arr = Object.values(window.graph.nodes._data).map(function(node){
-                    return node.level == levelID ? node : null
+                    return node.level == levelID ? getGraph(node.id) : null
                 })
                 arr = arr.filter(function(e){ return e === 0 || e });
                 return arr
