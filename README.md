@@ -1,4 +1,4 @@
-# Minecraft-Item-Conversions
+# MinecraftItemConversions
 Run the code here:
 
 https://sancarn.github.io/Minecraft-Item-Conversions/src/index.html
