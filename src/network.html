@@ -88,14 +88,17 @@
 
 
             function applySelection(){
-                console.log("poop")
                 aScenarios = [];
                 scenarios = document.getElementsByClassName("scenario");
                 Array.from(scenarios).forEach(function(scenario){
-                    if(scenario.checked) aScenarios.push(scenario.value)
+                    if(scenario.checked) aScenarios.push(scenario.value);
                 })
                 console.log(aScenarios);
-                drawNet(aScenarios, document.getElementById("query").value,{hierarchical:true})
+                sQuery = document.getElementById("query").value;
+                if(!sQuery.match(/^.+:.+/)){
+                    sQuery = "minecraft:" + sQuery;
+                }
+                drawNet(aScenarios, sQuery,{hierarchical:true});
             }
 
             window.onload = function(){
