@@ -1,0 +1,151 @@
+<html>
+    <head>
+        <!-- From: https://github.com/eligrey/FileSaver.js/ -->
+        <script src="libs/FileSaver.js"></script>
+        <!-- From: https://stuk.github.io/jszip/ -->
+        <script src="libs/jszip.js"></script>
+
+        <script src="../data/items.js"></script>
+        <script src="../data/enchantment_list.js"></script>
+        <script src="../data/potion_list.js"></script>
+        <script src="../data/tipped_arrow_list.js"></script>
+
+        <script src="../data/Anvil.js"></script>
+        <script src="../data/Crafting.js"></script>
+        <script src="../data/Enchantments.js"></script>
+        <script src="../data/Mechanics.js"></script>
+        <script src="../data/Potions.js"></script>
+        <script src="../data/Smelting.js"></script>
+        <script src="../data/Trading.js"></script>
+
+        <script src="blocktags.js"></script>
+        <script src="itemtags.js"></script>
+        <script src="recipes.js"></script>
+        <script src="recipesLib.js"></script>
+
+        <script src="libs/vis.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="libs/vis.min.css">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+        <script>
+            var makeNode = function(name) {
+                return {id:name, label:name.replace("minecraft:",""), image:"../img/" + name.replace("minecraft:","") + ".png", shape:"image"}
+            }
+            var drawNet = function(scenarios, query, argOptions){
+                var nodes={};
+                var edges=[];
+
+                //Use joined conversions to make graphs
+                var conversions = joinConversions(ItemConversions,scenarios);
+                conversions = filter(conversions, query);
+                conversions.forEach(function(conv){   //,["Crafting"]
+                    edges.push({from: conv.source, to: conv.result, label: conv.type, arrows:"to"})
+                    if(conv.source!= conv.result){
+                        nodes[conv.source] = makeNode(conv.source);
+                        nodes[conv.result] = makeNode(conv.result);
+                    }
+                })
+                nodes = Object.values(nodes)
+
+
+                //Make graph
+                nodes = new vis.DataSet(nodes)
+                edges = new vis.DataSet(edges)
+                container = document.querySelector(".network")
+                var data = {
+                    nodes:nodes,
+                    edges:edges
+                }
+
+                options = {
+                    layout: {
+                        improvedLayout: true,
+                        hierarchical: {
+                            enabled: false
+                            }
+                        },
+                    physics: {
+                        enabled:true
+                    }
+                }
+
+                if(argOptions){
+                    if(argOptions.hierarchical) options.layout.hierarchical.enabled = true
+
+                }
+
+                //Draw graph
+                var network = new vis.Network(container,data,options)
+
+                window.Net = {}
+                window.Net.edges = edges
+                window.Net.nodes = nodes
+                window.Net.network = network
+            }
+
+
+            function applySelection(){
+                console.log("poop")
+                aScenarios = [];
+                scenarios = document.getElementsByClassName("scenario");
+                Array.from(scenarios).forEach(function(scenario){
+                    if(scenario.checked) aScenarios.push(scenario.value)
+                })
+                console.log(aScenarios);
+                drawNet(aScenarios, document.getElementById("query").value,{hierarchical:true})
+            }
+
+            window.onload = function(){
+                dialog = $("#floatingPanel").dialog({
+                    position: {
+                        at: "right"
+                    }
+                })
+
+            }
+
+
+            //var floatingPanel = document.getElementById("floatingPanel");
+            //for (var conversion of ItemConversions) {
+            //    var checkbox = document.createElement("input");
+            //    checkbox.className = "scenario";
+            //    checkbox.type = "checkbox";
+            //    checkbox.value = conversion;
+            //    checkbox.name = conversion.replace("_", " ");
+            //    floatingPanel.addChild(checkbox);
+            //}
+        </script>
+
+        <style>
+            body, html, .network {
+                width:100%;
+                height:100%;
+                margin:0px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="floatingPanel" class="floatingPanel">
+            <p>Query input:</p>
+            <input id="query"></input>
+            <p>What to include:</p>
+            <label><input type="checkbox" class="scenario" name="Crafting" value="Crafting"></input>Crafting</label><br>
+            <label><input type="checkbox" class="scenario" name="Smelting" value="Smelting"></input>Smelting</label><br>
+            <label><input type="checkbox" class="scenario" name="Smelting Fuel" value="Smelting_Fuel"></input>Smelting Fuel</label><br>
+            <label><input type="checkbox" class="scenario" name="Game Mechanics" value="Mechanics"></input>Game Mechanics</label><br>
+            <label><input type="checkbox" class="scenario" name="Enchanting" value="Enchantment"></input>Enchanting</label><br>
+            <label><input type="checkbox" class="scenario" name="Anvil Enchanting" value="Anvil_Enchant"></input>Anvil Enchanting</label><br>
+            <label><input type="checkbox" class="scenario" name="Anvil Repair" value="anvilRepair"></input>Anvil Repair</label><br>
+            <label><input type="checkbox" class="scenario" name="Brewing" value="Potion"></input>Brewing</label><br>
+            <label><input type="checkbox" class="scenario" name="Brewing Fuel" value="Potion_Fuel"></input>Brewing Fuel</label><br>
+            <label><input type="checkbox" class="scenario" name="Tipped arrows" value="Potion_TippedArrow"></input>Tipped arrows</label><br>
+            <label><input type="checkbox" class="scenario" name="Trading" value="Trading"></input>Trading</label><br>
+            <br>
+            <button id="submit" onclick="applySelection()">Draw</button>
+        </div>
+        <div class="network"></div>
+    </body>
+</html>
