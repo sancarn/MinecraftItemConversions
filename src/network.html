@@ -262,6 +262,16 @@
                         return choice;
                     }
                 }
+                return {
+                    "style":{
+                        "color":"#eeeeee",
+                        "dashes":true
+                    },
+                    "name":"Unknown",
+                    "value":"Unknown",
+                    "description":"Unknown",
+                    "type": "Unknown"
+                }
             }
 
             //Jquery dialog creation
@@ -278,8 +288,34 @@
                 $.getJSON("network.data.json",function(choices){
                     window.choices = choices
                     fillChoices()
+                }).fail(function(errors){
+                    if(errors.status == 0){
+                        //Likely hosted locally
+                        window.choices = [{
+                            "style":{
+                                "color":"#c6993f",
+                                "dashes":false
+                            },
+                            "name":"Crafting",
+                            "value":"Crafting",
+                            "description":"Crafting",
+                            "type": "crafting"
+                        },{
+                            "style":{
+                                "color":"#ed0e07",
+                                "dashes":false
+                            },
+                            "name":"Smelting",
+                            "value":"Smelting",
+                            "description":"Smelting",
+                            "type":"furnace"
+                        }]
+                        fillChoices()
+                    } else {
+                        console.error(errors)
+                    }
                 })
-            })
+            });
 
             function fillChoices(){
                 var container = $("#GUIOptions")
