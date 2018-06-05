@@ -254,14 +254,13 @@
                 drawNet(aScenarios, sQuery,{hierarchical:true});
             }
 
-            window.onload = function(){
-                dialog = $("#floatingPanel").dialog({
+            $(function(){
+                window.dialog = $("#floatingPanel").dialog({
                     position: {
                         at: "right"
                     }
                 })
-
-            }
+            })
 
 
             //var floatingPanel = document.getElementById("floatingPanel");
@@ -284,13 +283,14 @@
         </style>
         <script>
             //GUI PREPERATION:
-            var template = '<label><input type="checkbox" class="scenario" color="c6993f" dashed="false" name="Crafting"         value="Crafting"          ></input>Crafting</label><br>'
-            var container = $("#GUIOptions")
-            $.getJSON("network.data.json",function(choices){
-                window.choices = choices
-                $.each(choices,function(index,choice){
-                    var sElement = '<label><input type="checkbox" class="scenario" name="' + choice.name + '" value="' + choice.value + '"></input>' + choice.description + '</label><br>'
-                    container.append(sElement)
+            $(function(){
+                $.getJSON("network.data.json",function(choices){
+                    window.choices = choices
+                    var container = $("#GUIOptions")
+                    $.each(choices,function(index,choice){
+                        var sElement = '<label><input type="checkbox" class="scenario" name="' + choice.name + '" value="' + choice.value + '"></input>' + choice.description + '</label><br>'
+                        container.append(sElement)
+                    })
                 })
             })
         </script>
