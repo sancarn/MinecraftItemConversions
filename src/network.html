@@ -276,10 +276,9 @@
             //Choices preperation
             $(function(){
                 $.getJSON("network.data.json",function(choices){
-                    window.choices = choices;
-                    fillChoices();
-                });
-            });
+                    window.choices = choices
+                    fillChoices()
+            })
 
             function fillChoices(){
                 var container = $("#GUIOptions")
