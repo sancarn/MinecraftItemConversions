@@ -256,11 +256,12 @@
 
             //Used to get edge style:
             function getChoiceByType(type){
-                window.choices.forEach(function(choice){
+                for(var i=0;i<window.choices.length;i++){
+                    var choice = window.choices[i];
                     if(choice.type == type){
                         return choice;
                     }
-                })
+                }
             }
 
             //Jquery dialog creation
