@@ -289,11 +289,15 @@
                 })
             }
 
+            //Setup autocomplete and keybinds
             $(function(){
                 var tags = Object.keys(window.vanilla_items);
                 $("#query").autocomplete({
                     source:tags
                 })
+                $("#query").on("keypress",function(ev){
+                    if(ev.keyCode==13||ev.key=="Enter") applySelection();
+                });
             })
         </script>
 
