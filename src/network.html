@@ -32,7 +32,7 @@
 
         <script>
             var makeNode = function(name) {
-                return {id:name, label:name.replace("minecraft:",""), image:"../img/" + name.replace("minecraft:","") + ".png", shape:"image"}
+                return {id:name, title:name.replace("minecraft:",""), image:"../img/" + name.replace("minecraft:","") + ".png", shape:"image"}
             }
             var drawNet = function(scenarios, query, argOptions){
                 var checkNodes = {};
@@ -69,6 +69,9 @@
                 }
 
                 options = {
+                    interaction : {
+                        hover:true
+                    },
                     layout: {
                         improvedLayout: true,
                         hierarchical: {
@@ -279,23 +282,27 @@
                 margin:0px;
             }
         </style>
+        <script>
+            //GUI PREPERATION:
+            var template = '<label><input type="checkbox" class="scenario" color="c6993f" dashed="false" name="Crafting"         value="Crafting"          ></input>Crafting</label><br>'
+            var container = $("#GUIOptions")
+            $.getJSON("file:///Users/Sancarn/Documents/Programming/Github/Minecraft-Item-Conversions2/src/network.data.json",function(choices){
+                window.choices = choices
+                $.each(choices,function(index,choice){
+                    var sElement = '<label><input type="checkbox" class="scenario" name="' + choice.name + '" value="' + choice.value + '"></input>' + choice.description + '</label><br>'
+                    container.appendChild($.parseHTML(sElement))
+                })
+            })
+        </script>
     </head>
     <body>
         <div id="floatingPanel" class="floatingPanel">
             <p>Query input:</p>
             <input id="query"></input>
             <p>What to include:</p>
-            <label><input type="checkbox" class="scenario" name="Crafting" value="Crafting"></input>Crafting</label><br>
-            <label><input type="checkbox" class="scenario" name="Smelting" value="Smelting"></input>Smelting</label><br>
-            <label><input type="checkbox" class="scenario" name="Smelting Fuel" value="Smelting_Fuel"></input>Smelting Fuel</label><br>
-            <label><input type="checkbox" class="scenario" name="Game Mechanics" value="Mechanics"></input>Game Mechanics</label><br>
-            <label><input type="checkbox" class="scenario" name="Enchanting" value="Enchantment"></input>Enchanting</label><br>
-            <label><input type="checkbox" class="scenario" name="Anvil Enchanting" value="Anvil_Enchant"></input>Anvil Enchanting</label><br>
-            <label><input type="checkbox" class="scenario" name="Anvil Repair" value="anvilRepair"></input>Anvil Repair</label><br>
-            <label><input type="checkbox" class="scenario" name="Brewing" value="Potion"></input>Brewing</label><br>
-            <label><input type="checkbox" class="scenario" name="Brewing Fuel" value="Potion_Fuel"></input>Brewing Fuel</label><br>
-            <label><input type="checkbox" class="scenario" name="Tipped arrows" value="Potion_TippedArrow"></input>Tipped arrows</label><br>
-            <label><input type="checkbox" class="scenario" name="Trading" value="Trading"></input>Trading</label><br>
+            <div id="GUIOptions" class="options">
+                <!--< GUI Options dynamically added here >-->
+            </div>
             <br>
             <button id="submit" onclick="applySelection()">Draw</button>
         </div>

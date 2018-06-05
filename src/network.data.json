@@ -1,0 +1,91 @@
+[
+    {
+        "style":{
+            "color":"#c6993f",
+            "dashes":false
+        },
+        "name":"Crafting",
+        "value":"Crafting",
+        "description":"Crafting"
+    },{
+        "style":{
+            "color":"#ed0e07",
+            "dashes":false
+        },
+        "name":"Smelting",
+        "value":"Smelting",
+        "description":"Smelting"
+    },{
+        "style":{
+            "color":"#474343",
+            "dashes":true
+        },
+        "name":"Smelting Fuel",
+        "value":"Smelting_Fuel",
+        "description":"Smelting Fuel"
+    },{
+        "style":{
+            "color":"#0d820e",
+            "dashes":false
+        },
+        "name":"Game Mechanics",
+        "value":"Mechanics",
+        "description":"Game Mechanics"
+    },{
+        "style":{
+            "color":"#ad36e8",
+            "dashes":false
+        },
+        "name":"Enchanting",
+        "value":"Enchantment",
+        "description":"Enchanting"
+    },{
+        "style":{
+            "color":"#7b37e8",
+            "dashes":false
+        },
+        "name":"Anvil Enchanting",
+        "value":"Anvil_Enchant",
+        "description":"Anvil Enchanting"
+    },{
+        "style":{
+            "color":"#f64cff",
+            "dashes":false
+        },
+        "name":"Anvil Repair",
+        "value":"anvilRepair",
+        "description":"Anvil Repair"
+    },{
+        "style":{
+            "color":"#3547e8",
+            "dashes":false
+        },
+        "name":"Brewing",
+        "value":"Potion",
+        "description":"Brewing"
+    },{
+        "style":{
+            "color":"#35c7e8",
+            "dashes":false
+        },
+        "name":"Brewing Fuel",
+        "value":"Potion_Fuel",
+        "description":"Brewing Fuel"
+    },{
+        "style":{
+            "color":"#35e8e5",
+            "dashes":false
+        },
+        "name":"Tipped arrows",
+        "value":"Potion_TippedArrow",
+        "description":"Tipped arrows"
+    },{
+        "style":{
+            "color":"#35e846",
+            "dashes":false
+        },
+        "name":"Trading",
+        "value":"Trading",
+        "description":"Trading"
+    }
+]
