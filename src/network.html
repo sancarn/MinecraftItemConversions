@@ -39,7 +39,6 @@
                 var nodes=[];
                 var edges=[];
 
-
                 //Use joined conversions to make graphs
                 var conversions = joinConversions(ItemConversions,scenarios);
                 conversions = filter(conversions, query);
@@ -256,9 +255,9 @@
             }
 
             //Used to get edge style:
-            function getChoiceByType(value){
+            function getChoiceByType(type){
                 window.choices.forEach(function(choice){
-                    if(choice.value == value){
+                    if(choice.type == type){
                         return choice;
                     }
                 })
