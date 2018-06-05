@@ -288,6 +288,13 @@
                     container.append(sElement)
                 })
             }
+
+            $(function(){
+                var tags = Object.keys(window.vanilla_items);
+                $("#query").autocomplete({
+                    source:tags
+                })
+            })
         </script>
 
         <style>
