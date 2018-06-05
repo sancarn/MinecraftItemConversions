@@ -45,7 +45,7 @@
                 conversions = filter(conversions, query);
                 console.log(conversions)
                 conversions.forEach(function(conv){   //,["Crafting"]
-                    typeInfo = getChoiceByValue(conv.type)
+                    typeInfo = getChoiceByType(conv.type)
                     edges.push({from: conv.source, to: conv.result, color:typeInfo.style.color, dashes:typeInfo.style.dashes, title:typeInfo.description, arrows:"to"})
                     if(!checkNodes[conv.source]){
                         checkNodes[conv.source] = true;
@@ -256,7 +256,7 @@
             }
 
             //Used to get edge style:
-            function getChoiceByValue(value){
+            function getChoiceByType(value){
                 window.choices.forEach(function(choice){
                     if(choice.value == value){
                         return choice;
