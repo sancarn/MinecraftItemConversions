@@ -45,7 +45,8 @@
                 conversions = filter(conversions, query);
                 console.log(conversions)
                 conversions.forEach(function(conv){   //,["Crafting"]
-                    edges.push({from: conv.source, to: conv.result, label: conv.type, arrows:"to"})
+                    typeInfo = getChoiceByValue(conv.type)
+                    edges.push({from: conv.source, to: conv.result, color:typeInfo.style.color, dashes:typeInfo.style.dashes, title:typeInfo.description, arrows:"to"})
                     if(!checkNodes[conv.source]){
                         checkNodes[conv.source] = true;
                         nodes.push(makeNode(conv.source))
@@ -254,6 +255,16 @@
                 drawNet(aScenarios, sQuery,{hierarchical:true});
             }
 
+            //Used to get edge style:
+            function getChoiceByValue(value){
+                window.choices.forEach(function(choice){
+                    if(choice.value == value){
+                        return choice;
+                    }
+                })
+            }
+
+            //Jquery dialog creation
             $(function(){
                 window.dialog = $("#floatingPanel").dialog({
                     position: {
@@ -262,16 +273,21 @@
                 })
             })
 
+            //Choices preperation
+            $(function(){
+                $.getJSON("network.data.json",function(choices){
+                    window.choices = choices
+                    fillChoices()
+                })
+            })
 
-            //var floatingPanel = document.getElementById("floatingPanel");
-            //for (var conversion of ItemConversions) {
-            //    var checkbox = document.createElement("input");
-            //    checkbox.className = "scenario";
-            //    checkbox.type = "checkbox";
-            //    checkbox.value = conversion;
-            //    checkbox.name = conversion.replace("_", " ");
-            //    floatingPanel.addChild(checkbox);
-            //}
+            function fillChoices(){
+                var container = $("#GUIOptions")
+                $.each(window.choices,function(index,choice){
+                    var sElement = '<label><input type="checkbox" class="scenario" name="' + choice.name + '" value="' + choice.value + '"></input>' + choice.description + '</label><br>'
+                    container.append(sElement)
+                })
+            }
         </script>
 
         <style>
@@ -281,19 +297,6 @@
                 margin:0px;
             }
         </style>
-        <script>
-            //GUI PREPERATION:
-            $(function(){
-                $.getJSON("network.data.json",function(choices){
-                    window.choices = choices
-                    var container = $("#GUIOptions")
-                    $.each(choices,function(index,choice){
-                        var sElement = '<label><input type="checkbox" class="scenario" name="' + choice.name + '" value="' + choice.value + '"></input>' + choice.description + '</label><br>'
-                        container.append(sElement)
-                    })
-                })
-            })
-        </script>
     </head>
     <body>
         <div id="floatingPanel" class="floatingPanel">
