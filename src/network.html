@@ -290,7 +290,7 @@
                 window.choices = choices
                 $.each(choices,function(index,choice){
                     var sElement = '<label><input type="checkbox" class="scenario" name="' + choice.name + '" value="' + choice.value + '"></input>' + choice.description + '</label><br>'
-                    container.appendChild($.parseHTML(sElement))
+                    container.append(sElement)
                 })
             })
         </script>
