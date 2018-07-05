@@ -1,7 +1,7 @@
 # MinecraftItemConversions
 Run the code here:
 
-https://sancarn.github.io/MinecraftItemConversions/index.html
+https://sancarn.github.io/MinecraftItemConversions
 
 Filled with JSON files demonstrating Item->Item conversions. 
 
