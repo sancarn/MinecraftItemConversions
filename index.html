@@ -285,8 +285,9 @@
                     position: {
                         at: "right"
                     }
-                })
-            })
+                });
+                window.dialog.dialog({draggable: false}).parent().draggable();
+            });
 
             //Choices preperation
             $(function(){
@@ -348,11 +349,14 @@
                 height:100%;
                 margin:0px;
             }
+            .ui-dialog-titlebar {
+              display:none;
+            }
         </style>
     </head>
     <body>
         <div id="floatingPanel" class="floatingPanel">
-            <p>Query input:</p>
+            <span>Query input:</span>
             <input id="query"></input>
             <p>What to include:</p>
             <div id="GUIOptions" class="options">
