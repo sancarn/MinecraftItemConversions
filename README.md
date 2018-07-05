@@ -3,9 +3,9 @@ Run the code here:
 
 https://sancarn.github.io/MinecraftItemConversions
 
-Filled with JSON files demonstrating Item->Item conversions. 
+Filled with JSON files demonstrating Item->Item conversions.
 
-This dataset includes all items which are both required and lost in a item conversion. 
+This dataset includes all items which are both required and lost in a item conversion.
 
 For example:
 
@@ -28,3 +28,18 @@ Doesn't cover:
 
 * Fireworks
 
+
+## Developer startup instructions
+
+While developing the application offline you are required to launch browser in certain ways to allow CORS file requests.
+
+### Mozilla
+`fetch()` API actually works on chrome perfectly. Simply open up the HTML page! No need to disable web security.
+
+### Chrome
+#### Linux
+`google-chrome --user-data-dir="/var/tmp/Chrome dev session" --disable-web-security`
+#### Windows
+`chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security`
+#### Mac
+`open /Applications/Google\ Chrome.app --args --user-data-dir="/var/tmp/Chrome dev session" --disable-web-security`
