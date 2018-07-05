@@ -1,38 +1,40 @@
 <html>
     <head>
         <!-- From: https://github.com/eligrey/FileSaver.js/ -->
-        <script src="libs/FileSaver.js"></script>
+        <script src="js/libs/FileSaver.js"></script>
         <!-- From: https://stuk.github.io/jszip/ -->
-        <script src="libs/jszip.js"></script>
+        <script src="js/libs/jszip.js"></script>
 
-        <script src="../data/items.js"></script>
-        <script src="../data/enchantment_list.js"></script>
-        <script src="../data/potion_list.js"></script>
-        <script src="../data/tipped_arrow_list.js"></script>
+        <script src="data/items.js"></script>
+        <script src="data/enchantment_list.js"></script>
+        <script src="data/potion_list.js"></script>
+        <script src="data/tipped_arrow_list.js"></script>
 
-        <script src="../data/Anvil.js"></script>
-        <script src="../data/Crafting.js"></script>
-        <script src="../data/Enchantments.js"></script>
-        <script src="../data/Mechanics.js"></script>
-        <script src="../data/Potions.js"></script>
-        <script src="../data/Smelting.js"></script>
-        <script src="../data/Trading.js"></script>
+        <script src="data/Anvil.js"></script>
+        <script src="data/Crafting.js"></script>
+        <script src="data/Enchantments.js"></script>
+        <script src="data/Mechanics.js"></script>
+        <script src="data/Potions.js"></script>
+        <script src="data/Smelting.js"></script>
+        <script src="data/Trading.js"></script>
 
-        <script src="blocktags.js"></script>
-        <script src="itemtags.js"></script>
-        <script src="recipes.js"></script>
-        <script src="recipesLib.js"></script>
+        <script src="js/blocktags.js"></script>
+        <script src="js/itemtags.js"></script>
+        <script src="js/recipes.js"></script>
+        <script src="js/recipesLib.js"></script>
 
-        <script src="libs/vis.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="libs/vis.min.css">
+        <script src="js/libs/vis.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="css/libs/vis.min.css">
 
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script src="js/libs/jquery.min.js"></script>
+        <link rel="stylesheet" href="css/libs/jquery-ui.css">
+        <script src="js/libs/jquery-ui.min.js"></script>
+
+        <link rel="stylesheet" href="css/looks.css">
 
         <script>
             var makeNode = function(name) {
-                return {id:name, title:name.replace("minecraft:",""), image:"../img/" + name.replace("minecraft:","") + ".png", shape:"image"}
+                return {id:name, title:name.replace("minecraft:",""), image:"img/items/" + name.replace("minecraft:","") + ".png", shape:"image"}
             }
             var drawNet = function(scenarios, query, argOptions){
                 var checkNodes = {};
@@ -285,7 +287,7 @@
 
             //Choices preperation
             $(function(){
-                $.getJSON("network.data.json",function(choices){
+                $.getJSON("data/network.data.json",function(choices){
                     window.choices = choices
                     fillChoices()
                 }).fail(function(errors){
@@ -320,7 +322,7 @@
             function fillChoices(){
                 var container = $("#GUIOptions")
                 $.each(window.choices,function(index,choice){
-                    var sElement = '<label><input type="checkbox" class="scenario" name="' + choice.name + '" value="' + choice.value + '"></input>' + choice.description + '</label><br>'
+                    var sElement = '<label><input type="checkbox" class="scenario" name="' + choice.name + '" value="' + choice.value + '"' + (choice.checked?" checked":"") + '></input><div class="colorcode" style="background:' + choice.style.color + '"></div>' + choice.description + '</label><br>'
                     container.append(sElement)
                 })
             }

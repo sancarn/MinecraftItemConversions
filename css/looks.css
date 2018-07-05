@@ -1,0 +1,35 @@
+body {
+	background: url("../img/style/dark_stone.gif");
+}
+
+.colorcode {
+	width: 17px;
+	height: 17px;
+	float: left;
+	margin: 2px;
+}
+
+#floatingPanel {
+	background: url("../img/style/dark_dirt.png");
+}
+
+.ui-widget.ui-widget-content {
+	border: 1px solid black;
+	background: black;
+	color: white;
+}
+
+div.ui-widget-content {
+	color: white;
+}
+
+.ui-dialog-titlebar {
+	background: url("../img/style/dark_grass.png");
+	background-size: 48px 48px;
+	image-rendering: -moz-crisp-edges;         /* Firefox */
+	image-rendering:   -o-crisp-edges;         /* Opera */
+	image-rendering: -webkit-optimize-contrast;/* Webkit (non-standard naming) */
+	image-rendering: crisp-edges;
+	-ms-interpolation-mode: nearest-neighbor;  /* IE (non-standard property) */
+	border: 0px;
+}

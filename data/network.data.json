@@ -7,7 +7,8 @@
         "name":"Crafting",
         "value":"Crafting",
         "description":"Crafting",
-        "type": "crafting"
+        "type": "crafting",
+        "checked":true
     },{
         "style":{
             "color":"#ed0e07",
@@ -16,7 +17,8 @@
         "name":"Smelting",
         "value":"Smelting",
         "description":"Smelting",
-        "type":"furnace"
+        "type":"furnace",
+        "checked":true
     },{
         "style":{
             "color":"#474343",
@@ -34,7 +36,8 @@
         "name":"Game Mechanics",
         "value":"Mechanics",
         "description":"Game Mechanics",
-        "type":"mechanics"
+        "type":"mechanics",
+        "checked":true
     },{
         "style":{
             "color":"#ad36e8",
