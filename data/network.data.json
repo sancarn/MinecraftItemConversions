@@ -5,7 +5,6 @@
             "dashes":false
         },
         "name":"Crafting",
-        "value":"Crafting",
         "description":"Crafting",
         "type": "crafting",
         "checked":true
@@ -15,7 +14,6 @@
             "dashes":false
         },
         "name":"Smelting",
-        "value":"Smelting",
         "description":"Smelting",
         "type":"furnace",
         "checked":true
@@ -25,16 +23,14 @@
             "dashes":true
         },
         "name":"Smelting Fuel",
-        "value":"Smelting_Fuel",
         "description":"Smelting Fuel",
-        "type":"furnaceFuel"
+        "type":"furnace_fuel"
     },{
         "style":{
             "color":"#0d820e",
             "dashes":false
         },
         "name":"Game Mechanics",
-        "value":"Mechanics",
         "description":"Game Mechanics",
         "type":"mechanics",
         "checked":true
@@ -44,7 +40,6 @@
             "dashes":false
         },
         "name":"Enchanting",
-        "value":"Enchantment",
         "description":"Enchanting",
         "type":"enchantment"
     },{
@@ -53,25 +48,22 @@
             "dashes":false
         },
         "name":"Anvil Enchanting",
-        "value":"Anvil_Enchant",
         "description":"Anvil Enchanting",
-        "type":"anvilEnchantedBook"
+        "type":"anvil_enchanted_book"
     },{
         "style":{
             "color":"#f64cff",
             "dashes":false
         },
         "name":"Anvil Repair",
-        "value":"anvilRepair",
         "description":"Anvil Repair",
-        "type":"anvilRepair"
+        "type":"anvil_repair"
     },{
         "style":{
             "color":"#3547e8",
             "dashes":false
         },
         "name":"Brewing",
-        "value":"Potion",
         "description":"Brewing",
         "type":"brewing"
     },{
@@ -80,25 +72,22 @@
             "dashes":false
         },
         "name":"Brewing Fuel",
-        "value":"Potion_Fuel",
         "description":"Brewing Fuel",
-        "type":"brewingFuel"
+        "type":"brewing_fuel"
     },{
         "style":{
             "color":"#35e8e5",
             "dashes":false
         },
         "name":"Tipped arrows",
-        "value":"Potion_TippedArrow",
         "description":"Tipped arrows",
-        "type":"arrowTipping"
+        "type":"arrow_tipping"
     },{
         "style":{
             "color":"#35e846",
             "dashes":false
         },
         "name":"Trading",
-        "value":"Trading",
         "description":"Trading",
         "type":"trading"
     }

@@ -1804,5 +1804,5 @@
     {"source":"minecraft:elytra", "result":"unbreaking_2", "type":"enchantment"},
     {"source":"minecraft:lapis_lazuli", "result":"unbreaking_2", "type":"enchantment"},
     {"source":"minecraft:elytra", "result":"unbreaking_3", "type":"enchantment"},
-    {"source":"minecraft:lapis_lazuli", "result":"unbreaking_3", "type":"enchantment"},
+    {"source":"minecraft:lapis_lazuli", "result":"unbreaking_3", "type":"enchantment"}
 ]
