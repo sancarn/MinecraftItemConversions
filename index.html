@@ -35,7 +35,7 @@
                 console.log(conversions)
                 conversions.forEach(function(conv){   //,["Crafting"]
                     typeInfo = getChoiceByType(conv.type)
-                    edges.push({from: conv.source, to: conv.result, color:{color: typeInfo.style.color, inherit:false}, dashes:typeInfo.style.dashes, title:typeInfo.description, arrows:"to"})
+                    edges.push({from: conv.source, to: conv.result, color:{color: typeInfo.style.color, hover: typeInfo.style.color, highlight: typeInfo.style.color, inherit:false}, dashes:typeInfo.style.dashes, title:typeInfo.description, arrows:"to"})
                     if(!checkNodes[conv.source]){
                         checkNodes[conv.source] = true;
                         nodes.push(makeNode(conv.source))
