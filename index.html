@@ -16,15 +16,6 @@
 	<link rel="stylesheet" href="css/libs/jquery-ui.css">
 	<!-- Style modifications -->
         <link rel="stylesheet" href="css/looks.css">
-	<!-- Data !DEPRECATED! -->
-        <script src="data/items.js"></script>
-        <script src="data/enchantment_list.js"></script>
-        <script src="data/potion_list.js"></script>
-        <script src="data/tipped_arrow_list.js"></script>
-	<!-- Data !DEPRECATED! -->
-        <script src="js/blocktags.js"></script>
-        <script src="js/itemtags.js"></script>
-        <script src="js/recipes.js"></script>
 	<!-- Scripts -->
         <script src="js/filereader.js"></script>
         <script src="js/recipesLib.js"></script>
@@ -237,12 +228,17 @@
                 return Object.keys(oAncestors);
             }
 
-            function applySelection(){
+            function getScenarios() {
                 aScenarios = [];
                 scenarios = document.getElementsByClassName("scenario");
                 Array.from(scenarios).forEach(function(scenario){
                     if(scenario.checked) aScenarios.push(scenario.value);
                 })
+                return aScenarios;
+            }
+
+            function applySelection(){
+                aScenarios = getScenarios();
                 console.log(aScenarios);
                 sQuery = document.getElementById("query").value;
                 if(!sQuery.match(/^.+:.+/)){
@@ -283,32 +279,40 @@
                 window.dialog.dialog({draggable: false}).parent().draggable();
             });
 
-            //Choices preperation
-            $(function(){
-                loadContent();
-            });
-
             function fillChoices(){
                 var container = $("#GUIOptions")
                 $.each(window.choices,function(index,choice){
                     var sElement = '<label><input type="checkbox" class="scenario" name="' + choice.name + '" value="' + choice.type + '"' + (choice.checked?" checked":"") + '></input><div class="colorcode" style="background:' + choice.style.color + '"></div>' + choice.description + '</label><br>'
                     container.append(sElement)
                 })
-                /*let itemlist = Object.keys(vanilla_items);
-                $("#query")[0].value = itemlist[Math.floor(Math.random()*itemlist.length)];
-                applySelection();*/
             }
 
             //Setup autocomplete and keybinds
-            $(function(){
-                var tags = Object.keys(window.vanilla_items);
+            function fillAutocomplete() {
+                var tags = Object.keys(window.VanillaItems);
                 $("#query").autocomplete({
                     source:tags
                 })
                 $("#query").on("keypress",function(ev){
                     if(ev.keyCode==13||ev.key=="Enter") applySelection();
                 });
-            })
+            }
+
+            function renderRandomGraph() {
+                let scenarios = getScenarios();
+                let items = {};
+                for (let conv of joinConversions(ItemConversions, scenarios)) {
+                    items[conv.source] = true;
+                }
+                let itemlist = Object.keys(items);
+                $("#query")[0].value = itemlist[Math.floor(Math.random()*itemlist.length)];
+                applySelection();
+            }
+
+            //Choices preperation
+            $(function(){
+                loadContent();
+            });
         </script>
 
         <style>

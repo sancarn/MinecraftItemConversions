@@ -29,33 +29,48 @@ let default_choices = [{
     }];
 
 function loadContent() {
-    getJSON("data/network.data.json")
-    .then((choices) => {
+    loadVanillaItems()
+    .catch((error) => {
+        console.error("Failed to load vanilla items: " + error);
+        VanillaItems = {};
+    }).then(() => {
+        fillAutocomplete();
+        return getJSON("data/network.data.json");
+    }).catch((error) => {
+        console.error("Failed to load network.data.json. Hosted locally? Error: " + error);
+        return default_choices;
+    }).then((choices) => {
         window.choices = choices;
-        // TODO Make sure all content is loaded before being accessed
         fillChoices();
-        loadConversions();
+        return loadConversions();
     }).fail((error) => {
-        if (error.status == 0) {
-            window.choices = default_choices;
-            fillChoices();
-            console.error("Failed to load conversion types. Hosted locally?");
-        } else {
-            console.error(error);
-        }
+        console.error("Failed to load item conversions: " + error);
+    }).then(() => {
+        renderRandomGraph();
+    });
+}
+
+var VanillaItems;
+
+function loadVanillaItems() {
+    return getJSON("data/items.json")
+    .then((content) => {
+        VanillaItems = content;
     });
 }
 
 var ItemConversions = {};
 
 function loadConversions() {
+    let retval;
     for (let entry of window.choices) {
         console.info("Loading conversion type \"" + entry.type + "\".");
-        getJSON("data/conversions/" + entry.type + ".json")
+        retval = getJSON("data/conversions/" + entry.type + ".json")
         .then((content) => {
             ItemConversions[entry.type] = content;
-        }).fail((error) => {
+        }).catch((error) => {
             console.error("Failed to load conversion \"" + entry.type + "\". Error: ", error);
         });
     }
+    return retval;
 }
